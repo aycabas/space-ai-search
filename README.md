@@ -1,36 +1,42 @@
-# Overview of the AI Search Bot template
+# Overview of the Space AI Search sample
 
-This template showcases a bot app that responds to user questions like an AI assistant according to data from Azure Search. This enables your users to talk with the AI assistant in Teams to find information.
+This template showcases the Space AI Search sample that responds to user questions like an AI assistant according to your space data from Azure AI Search. This enables your users to talk with the AI assistant in Teams to find information.
+
+Learn more about this sample by watching this Doodle to Code video:
+
+[![What is RAG](https://github.com/aycabas/space-ai-search/assets/36196437/2cbcce45-a93a-43af-842a-e43f30926508)](https://www.youtube.com/watch?v=1k4XGgsqfTM)
 
 The app template is built using the Teams AI library, which provides the capabilities to build AI-based Teams applications.
 
-- [Overview of the AI Search Bot template](#overview-of-the-ai-search-bot-template)
-  - [Get started with the AI Search Bot template](#get-started-with-the-ai-search-bot-template)
-  - [What's included in the template](#whats-included-in-the-template)
-  - [Extend the AI Search Bot template with more AI capabilities](#extend-the-ai-search-bot-template-with-more-ai-capabilities)
-  - [Additional information and references](#additional-information-and-references)
-
-## Get started with the AI Search Bot template
+## Get started with the Space AI Search sample
 
 > **Prerequisites**
 >
-> To run the AI Search Bot template in your local dev machine, you will need:
+> To run the sample in your local dev machine, you will need:
 >
 > - [Python](https://www.python.org/), version 3.8 to 3.11.
 > - [Python extension](https://code.visualstudio.com/docs/languages/python), version v2024.0.1 or higher.
 > - [Teams Toolkit Visual Studio Code Extension](https://aka.ms/teams-toolkit) latest version or [Teams Toolkit CLI](https://aka.ms/teamsfx-cli).
 > - An account with [Azure OpenAI](https://aka.ms/oai/access).
-> - An [Azure Search service](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search).
+> - An [Azure AI Search service](https://learn.microsoft.com/en-us/azure/search/search-what-is-azure-search) and an [Azure OpenAI Service](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource).
 > - [Node.js](https://nodejs.org/) (supported versions: 16, 18) for local debug in Test Tool.
 
 ### Configurations
 1. Open the command box and enter `Python: Create Environment` to create and activate your desired virtual environment. Remember to select `src/requirements.txt` as dependencies to install when creating the virtual environment.
-1. In file *env/.env.testtool.user*, fill in your Azure OpenAI key `SECRET_AZURE_OPENAI_API_KEY`, deployment name `AZURE_OPENAI_MODEL_DEPLOYMENT_NAME`, endpoint `AZURE_OPENAI_ENDPOINT` and embedding deployment name `AZURE_OPENAI_EMBEDDING_DEPLOYMENT`.
-1. In file *env/.env.local.user*, fill in your Azure Search key `SECRET_AZURE_SEARCH_KEY` and endpoint `AZURE_SEARCH_ENDPOINT`.
+1. In **env** folder, create a file **env/.env.testtool.user**, and paste the following snippet in the file and fill the required environment variables:
+   ```
+   SECRET_BOT_PASSWORD=
+   SECRET_AZURE_OPENAI_API_KEY='<YOUR-AZURE-OPENAI-API-KEY>'
+   AZURE_OPENAI_MODEL_DEPLOYMENT_NAME='<YOUR-AZURE-OPENAI-DEPLOYMENT-MODEL-NAME>'
+   AZURE_OPENAI_ENDPOINT='<YOUR-AZURE-OPENAI-ENDPOINT>'
+   AZURE_OPENAI_EMBEDDING_DEPLOYMENT='<YOUR-AZURE-OPENAI-EMBEDDING-MODEL>'
+    
+   SECRET_AZURE_SEARCH_KEY='<YOUR-AZURE-AI-SEARCH-KEY>'
+   AZURE_SEARCH_ENDPOINT='<YOUR-AZURE-AI-SEARCH-ENDPOINT>'
+   ```
 
 ### Setting up index and documents
-1. Azure Search key `SECRET_AZURE_SEARCH_KEY` and endpoint `AZURE_SEARCH_ENDPOINT` are loaded from *env/.env.testtool.user*. Please make sure you have already configured them.
-1. Use command `python src/indexers/setup.py` to create index and upload documents in `src/indexers/data`.
+1. Open the terminal in the project root and use command `python src/indexers/setup.py` to create index and upload documents in `src/indexers/data`.
 1. You will see the following information indicated the success of setup:
     ```
     Create index succeeded. If it does not exist, wait for 5 seconds...
@@ -39,65 +45,11 @@ The app template is built using the Teams AI library, which provides the capabil
     ```
 1. Once you're done using the sample it's good practice to delete the index. You can do so with the command `python src/indexers/delete.py`.
 
-### Conversation with bot
+### Conversation with Space AI Search
 1. Select the Teams Toolkit icon on the left in the VS Code toolbar.
 1. Press F5 to start debugging which launches your app in Teams App Test Tool using a web browser. Select `Debug in Test Tool (Preview)`.
-1. You will receive a welcome message from the bot, or send any message to get a response.
+1. Type "Hi" or similar and you will receive a welcome message from the bot, or send any message to get a response.
 
-**Congratulations**! You are running an application that can now interact with users in Teams:
+**Congratulations**! You are running the Space AI Search that can now interact with users:
 
-![alt text](https://github.com/OfficeDev/TeamsFx/assets/109947924/3e0de761-b4c8-4ae2-9ede-8e9922e54765)
-
-## What's included in the template
-
-| Folder       | Contents                                            |
-| - | - |
-| `.vscode`    | VSCode files for debugging                          |
-| `appPackage` | Templates for the Teams application manifest        |
-| `env`        | Environment files                                   |
-| `infra`      | Templates for provisioning Azure resources          |
-| `src`        | The source code for the application                 |
-
-The following files can be customized and demonstrate an example implementation to get you started.
-
-| File                                 | Contents                                           |
-| - | - |
-|`src/bot.py`| Handles business logics for the AI Search Bot.|
-|`src/config.py`| Defines the environment variables.|
-|`src/app.py`| Main module of the AI Search Bot, hosts a aiohttp api server for the app.|
-|`src/azure_ai_search_data_source.py.py`| Handles data search logics.|
-|`src/prompts/chat/skprompt.txt`| Defines the prompt.|
-|`src/prompts/chat/config.json`| Configures the prompt.|
-
-The following files are scripts and raw texts that help you to prepare or clean data source in Azure Search.
-
-| File                                 | Contents                                           |
-| - | - |
-|`src/indexers/get_data.py`| Fetches data and creates embedding vectors.|
-|`src/indexers/data/*.md`| Raw text data source.|
-|`src/indexers/setup.py`| A script to create index and upload documents.|
-|`src/indexers/delete.py`| A script to delete index and documents.|
-
-The following are Teams Toolkit specific project files. You can [visit a complete guide on Github](https://github.com/OfficeDev/TeamsFx/wiki/Teams-Toolkit-Visual-Studio-Code-v5-Guide#overview) to understand how Teams Toolkit works.
-
-| File                                 | Contents                                           |
-| - | - |
-|`teamsapp.yml`|This is the main Teams Toolkit project file. The project file defines two primary things:  Properties and configuration Stage definitions. |
-|`teamsapp.local.yml`|This overrides `teamsapp.yml` with actions that enable local execution and debugging.|
-|`teamsapp.testtool.yml`|This overrides `teamsapp.yml` with actions that enable local execution and debugging in Teams App Test Tool.|
-
-## Extend the Basic AI Chatbot template with more AI capabilities
-
-You can follow [Build a Basic AI Chatbot in Teams](https://aka.ms/teamsfx-basic-ai-chatbot) to extend the Basic AI Chatbot template with more AI capabilities, like:
-- [Customize prompt](https://aka.ms/teamsfx-basic-ai-chatbot#customize-prompt)
-- [Customize user input](https://aka.ms/teamsfx-basic-ai-chatbot#customize-user-input)
-- [Customize conversation history](https://aka.ms/teamsfx-basic-ai-chatbot#customize-conversation-history)
-- [Customize model type](https://aka.ms/teamsfx-basic-ai-chatbot#customize-model-type)
-- [Customize model parameters](https://aka.ms/teamsfx-basic-ai-chatbot#customize-model-parameters)
-- [Handle messages with image](https://aka.ms/teamsfx-basic-ai-chatbot#handle-messages-with-image)
-
-## Additional information and references
-- [Teams AI library](https://aka.ms/teams-ai-library)
-- [Teams Toolkit Documentations](https://docs.microsoft.com/microsoftteams/platform/toolkit/teams-toolkit-fundamentals)
-- [Teams Toolkit CLI](https://aka.ms/teamsfx-toolkit-cli)
-- [Teams Toolkit Samples](https://github.com/OfficeDev/TeamsFx-Samples)
+<img width="1351" alt="Space AI Search" src="https://github.com/aycabas/space-ai-search/assets/36196437/ebf46896-e315-4369-9968-c9417669f24b">
