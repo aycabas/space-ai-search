@@ -23,7 +23,13 @@ The app template is built using the Teams AI library, which provides the capabil
 
 ### Configurations
 1. Open the command box and enter `Python: Create Environment` to create and activate your desired virtual environment. Remember to select `src/requirements.txt` as dependencies to install when creating the virtual environment.
-1. In **env** folder, create a file **env/.env.testtool.user**, and paste the following snippet in the file and fill the required environment variables:
+1. In **env** folder, create a file **env/.env.testtool**, and paste the following snippet in the file 
+```
+TEAMSFX_ENV=testtool
+TEAMSAPPTESTER_PORT=56150
+TEAMSFX_NOTIFICATION_STORE_FILENAME=.notification.testtoolstore.json
+```
+1.In **env** folder, create a file **env/.env.testtool.user**, and paste the following snippet in the file and fill the required environment variables:
    ```
    SECRET_BOT_PASSWORD=
    SECRET_AZURE_OPENAI_API_KEY='<YOUR-AZURE-OPENAI-API-KEY>'
